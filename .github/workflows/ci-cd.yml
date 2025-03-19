@@ -28,4 +28,5 @@ jobs:
         run: npm install
 
       - name: Run tests
+        shell: cmd
         run: npx codeceptjs run --steps
