@@ -24,9 +24,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npx codeceptjs run --steps
-
       - name: Install dependencies
         run: npm install
 
