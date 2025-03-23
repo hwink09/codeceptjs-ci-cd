@@ -49,3 +49,33 @@ Scenario("Đánh dấu một todo là hoàn thành", async ({ I }) => {
   );
   assert.strictEqual(completed, 1, "Todo không được đánh dấu là hoàn thành!");
 });
+
+// Test xóa tất cả các todo đã hoàn thành
+Scenario("Xóa tất cả các todo đã hoàn thành", async ({ I }) => {
+  I.fillField(".new-todo", "Todo 1");
+  I.pressKey("Enter");
+  I.fillField(".new-todo", "Todo 2");
+  I.pressKey("Enter");
+
+  I.click(locate(".todo-list li").first().find(".toggle")); // Hoàn thành Todo 1
+
+  I.click("Clear completed"); // Xóa tất cả todo đã hoàn thành
+
+  I.dontSee("Todo 1", ".todo-list");
+  let todosLeft = await I.grabNumberOfVisibleElements(".todo-list li");
+  assert.strictEqual(todosLeft, 1, "Chỉ còn 1 todo chưa hoàn thành!");
+});
+
+// Test bộ đếm số lượng công việc còn lại
+Scenario("Kiểm tra bộ đếm số lượng công việc còn lại", async ({ I }) => {
+  I.fillField(".new-todo", "Task 1");
+  I.pressKey("Enter");
+  I.fillField(".new-todo", "Task 2");
+  I.pressKey("Enter");
+
+  I.see("2 items left", ".todo-count");
+
+  I.click(locate(".todo-list li").first().find(".toggle")); // Đánh dấu Task 1 là hoàn thành
+
+  I.see("1 item left", ".todo-count");
+});
